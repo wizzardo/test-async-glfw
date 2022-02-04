@@ -8,10 +8,12 @@ import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.*;
 import test.ShaderSPIRVUtils.SPIRV;
 
+import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -1125,11 +1127,13 @@ public class Ch15HelloTriangle {
 
     public static void main(String[] args) {
         //works fine with -XstartOnFirstThread
-        HelloTriangleApplication app = new HelloTriangleApplication();
-        app.run();
+//        HelloTriangleApplication app = new HelloTriangleApplication();
+//        app.run();
 
-//        //shows empty frame
-//        Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
+        //shows empty frame
+        Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
+        new HelloTriangleApplication().run();
+
 //        CountDownLatch javaFxInit = new CountDownLatch(1);
 //        new Thread(() -> {
 //            try {
@@ -1139,10 +1143,11 @@ public class Ch15HelloTriangle {
 //            }
 //            new HelloTriangleApplication().run();
 //        }).start();
-//
+
 //        PlatformImpl.startup(() -> {
 //            javaFxInit.countDown();
 //        });
+//        EventQueue.invokeLater(() -> javaFxInit.countDown());
     }
 
 }
