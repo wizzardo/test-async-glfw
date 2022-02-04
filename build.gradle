@@ -1,0 +1,68 @@
+import org.gradle.internal.os.OperatingSystem;
+
+repositories {
+    google()
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
+apply plugin: "java"
+apply plugin: "application"
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+mainClassName="test.Ch15HelloTriangle"
+
+dependencies {
+    def arch = ""
+    if (System.getProperty("os.arch") == "aarch64") {
+        arch = "-arm64"
+    }
+
+    def os = ""
+    if (OperatingSystem.current().isLinux()) {
+        os = "linux"
+    } else if (OperatingSystem.current().isMacOsX()) {
+        os = "macos"
+    } else if (OperatingSystem.current().isWindows()) {
+        os = "windows"
+    }
+    def lwjgl = "3.3.1-SNAPSHOT"
+    def lwjglNative = "natives-${os}${arch}"
+
+    if (OperatingSystem.current().isMacOsX()) {
+        implementation "org.lwjgl:lwjgl-vulkan:${lwjgl}:${lwjglNative}"
+    }
+    implementation 'org.joml:joml:1.10.3'
+    implementation "org.lwjgl:lwjgl-vulkan:${lwjgl}"
+    implementation "org.lwjgl:lwjgl:${lwjgl}:${lwjglNative}"
+    implementation "org.lwjgl:lwjgl-glfw:${lwjgl}"
+    implementation "org.lwjgl:lwjgl-glfw:${lwjgl}:${lwjglNative}"
+    implementation "org.lwjgl:lwjgl-shaderc:${lwjgl}"
+    implementation "org.lwjgl:lwjgl-shaderc:${lwjgl}:${lwjglNative}"
+
+
+    def osFx = ""
+    if (OperatingSystem.current().isLinux()) {
+        osFx = "linux"
+    } else if (OperatingSystem.current().isMacOsX()) {
+        osFx = "mac"
+    } else if (OperatingSystem.current().isWindows()) {
+        osFx = "win"
+    }
+
+    def archFx = ""
+    if (System.getProperty("os.arch") == "aarch64") {
+        archFx = "-aarch64"
+    }
+
+    def javaFx = "18-ea+10:${osFx}${archFx}"
+    implementation "org.openjfx:javafx-base:$javaFx"
+    implementation "org.openjfx:javafx-web:$javaFx"
+    implementation "org.openjfx:javafx-graphics:$javaFx"
+    implementation "org.openjfx:javafx-controls:$javaFx"
+    implementation "org.openjfx:javafx-media:$javaFx"
+}
